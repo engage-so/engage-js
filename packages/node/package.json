@@ -1,0 +1,17 @@
+{
+  "name": "@engage_so/node",
+  "version": "1.0.0",
+  "description": "Event driven customer segmentation and targeted engagement.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "@engage_so/core": "1.0.0"
+  },
+  "author": "Engage",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^26.4.2"
+  }
+}

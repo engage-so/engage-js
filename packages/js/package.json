@@ -1,0 +1,14 @@
+{
+  "name": "@engage_so/js",
+  "version": "1.0.0",
+  "description": "Event driven customer segmentation and targeted engagement.",
+  "main": "node/index.js",
+  "browser": "browser/index.js",
+  "homepage": "https://engage.so/",
+  "author": "Engage",
+  "license": "MIT",
+  "dependencies": {
+    "@engage_so/browser": "1.0.0",
+    "@engage_so/node": "1.0.0"
+  }
+}
