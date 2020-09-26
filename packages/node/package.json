@@ -6,6 +6,9 @@
   "scripts": {
     "test": "jest"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@engage_so/core": "1.0.0"
   },
