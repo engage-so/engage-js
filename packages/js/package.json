@@ -7,8 +7,12 @@
   "homepage": "https://engage.so/",
   "author": "Engage",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@engage_so/browser": "1.0.0",
     "@engage_so/node": "1.0.0"
-  }
+  },
+  "gitHead": "844724b66d733bfd598df07556c2c8e731850274"
 }
