@@ -29,5 +29,5 @@
     "rollup-plugin-license": "^2.2.0",
     "rollup-plugin-terser": "^7.0.2"
   },
-  "gitHead": "844724b66d733bfd598df07556c2c8e731850274"
+  "gitHead": "26d02231e2e44463efec8b171d398f0c57303ac7"
 }
