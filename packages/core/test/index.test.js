@@ -17,6 +17,11 @@ describe('Init', () => {
       Engage.init('')
     }).toThrowError()
   })
+  test('should not throw if key is sent', () => {
+    expect(() => {
+      Engage.init(process.env.KEY)
+    }).not.toThrowError()
+  })
   test('should not throw if key/secret is sent', () => {
     expect(() => {
       Engage.init({

@@ -42,7 +42,7 @@ const init = (o) => {
     throw new EngageError('You need to pass in your API key')
   }
   if (typeof o === 'string') {
-    options.key = `${o.key}`
+    options.key = o
     return
   }
 
