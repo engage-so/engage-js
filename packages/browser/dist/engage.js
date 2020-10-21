@@ -1,5 +1,5 @@
 /**
- * Version: 1.0.0; 2020-09-26
+ * Version: 1.0.1; 2020-09-28
  */
 
 (function (global, factory) {
@@ -582,7 +582,6 @@
 	}
 	var error = EngageError;
 
-	// const root = 'http://localhost:3001'
 	const root = 'https://api.engage.so';
 	if (typeof btoa === 'undefined') {
 	  commonjsGlobal.btoa = function (str) {
@@ -625,7 +624,7 @@
 	    throw new error('You need to pass in your API key')
 	  }
 	  if (typeof o === 'string') {
-	    options.key = `${o.key}`;
+	    options.key = o;
 	    return
 	  }
 
@@ -702,19 +701,6 @@
 	    }
 	  }
 
-	  // const r = await got.post(`${root}/users/${uid}/events`, {
-	  //   throwHttpErrors: false,
-	  //   username: options.key,
-	  //   password: options.secret,
-	  //   json: data,
-	  //   responseType: 'json'
-	  // })
-	  // if (r && r.body) {
-	  //   return r.body
-	  // } else {
-	  //   return { error: 'API connection error' }
-	  // }
-
 	  return request(`${root}/users/${uid}/events`, data, 'POST')
 	};
 
@@ -724,10 +710,6 @@
 	  addAttribute,
 	  track
 	};
-
-	// [VI]Version: {version} - built on {date}[/VI]
-
-
 
 	// Browser specific will come here
 
