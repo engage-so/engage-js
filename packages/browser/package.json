@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/browser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Event driven customer segmentation and targeted engagement.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/core": "^1.0.1"
+    "@engage_so/core": "^1.0.2"
   },
   "browserslist": "cover 99.5%",
   "author": "Engage",

@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/node",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Event driven customer segmentation and targeted engagement.",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/core": "^1.0.1"
+    "@engage_so/core": "^1.0.2"
   },
   "author": "Engage",
   "license": "MIT",
