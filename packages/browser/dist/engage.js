@@ -1,5 +1,5 @@
 /**
- * Version: 1.0.1; 2020-09-28
+ * Version: 1.0.2; 2021-01-19
  */
 
 (function (global, factory) {
@@ -649,7 +649,7 @@
 	  if (!o.email || !/^\S+@\S+$/.test(o.email)) {
 	    throw new error('Email missing or invalid')
 	  }
-	  const allowed = ['id', 'email', 'created_at', 'first_name', 'last_name'];
+	  const allowed = ['id', 'email', 'number', 'created_at', 'first_name', 'last_name'];
 	  const params = {};
 	  Object.keys(o).map(k => {
 	    if (allowed.indexOf(k) !== -1) {
