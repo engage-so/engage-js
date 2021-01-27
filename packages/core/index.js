@@ -67,7 +67,7 @@ const identify = async (o) => {
   if (!o.email || !/^\S+@\S+$/.test(o.email)) {
     throw new EngageError('Email missing or invalid')
   }
-  const allowed = ['id', 'email', 'number', 'created_at', 'first_name', 'last_name']
+  const allowed = ['id', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
   const params = {}
   Object.keys(o).map(k => {
     if (allowed.indexOf(k) !== -1) {
@@ -88,7 +88,7 @@ const addAttribute = async (uid, data) => {
   if (!Object.keys(data).length) {
     throw new EngageError('Attributes missing')
   }
-  const notMeta = ['created_at', 'number', 'email', 'first_name', 'last_name']
+  const notMeta = ['created_at', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name']
   const params = { meta: {} }
   Object.keys(data).map(k => {
     if (notMeta.indexOf(k) === -1) {
