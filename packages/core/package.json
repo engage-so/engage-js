@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/core",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Event driven customer segmentation and targeted engagement.",
   "main": "index.js",
   "scripts": {
