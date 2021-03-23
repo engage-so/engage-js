@@ -1,5 +1,5 @@
 /**
- * Version: 1.1.0; 2021-01-27
+ * Version: 1.1.0; 2021-03-23
  */
 
 (function (global, factory) {
@@ -641,19 +641,23 @@
 
 	const identify = async (o) => {
 	  if (!o) {
-	    throw new error('You need to pass an object with at least an id and email')
+	    throw new error('You need to pass an object with at least an id and email.')
 	  }
 	  if (!o.id) {
-	    throw new error('ID missing')
+	    throw new error('ID missing.')
 	  }
-	  if (!o.email || !/^\S+@\S+$/.test(o.email)) {
-	    throw new error('Email missing or invalid')
+	  if (o.email && !/^\S+@\S+$/.test(o.email)) {
+	    throw new error('Email invalid.')
 	  }
 	  const allowed = ['id', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name'];
-	  const params = {};
+	  const params = {
+	    meta: {}
+	  };
 	  Object.keys(o).map(k => {
 	    if (allowed.indexOf(k) !== -1) {
 	      params[k] = o[k];
+	    } else {
+	      params.meta[k] = o[k];
 	    }
 	  });
 

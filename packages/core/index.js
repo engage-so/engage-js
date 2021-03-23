@@ -59,19 +59,23 @@ const init = (o) => {
 
 const identify = async (o) => {
   if (!o) {
-    throw new EngageError('You need to pass an object with at least an id and email')
+    throw new EngageError('You need to pass an object with at least an id and email.')
   }
   if (!o.id) {
-    throw new EngageError('ID missing')
+    throw new EngageError('ID missing.')
   }
-  if (!o.email || !/^\S+@\S+$/.test(o.email)) {
-    throw new EngageError('Email missing or invalid')
+  if (o.email && !/^\S+@\S+$/.test(o.email)) {
+    throw new EngageError('Email invalid.')
   }
   const allowed = ['id', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
-  const params = {}
+  const params = {
+    meta: {}
+  }
   Object.keys(o).map(k => {
     if (allowed.indexOf(k) !== -1) {
       params[k] = o[k]
+    } else {
+      params.meta[k] = o[k]
     }
   })
 
