@@ -1,5 +1,5 @@
 /**
- * Version: 1.3.0; 2021-06-17
+ * Version: 1.3.1; 2021-06-18
  */
 
 (function (global, factory) {
@@ -582,7 +582,6 @@
 	}
 	var error = EngageError;
 
-	// const root = 'http://localhost:3001'
 	const root = 'https://api.engage.so';
 	if (typeof btoa === 'undefined') {
 	  commonjsGlobal.btoa = function (str) {
@@ -804,6 +803,8 @@
 	for (const q of queue) {
 	  if (q[0] === 'identify' && q[1] && q[1].id) {
 	    uid = q[1].id;
+	  } else if (!uid && q[0] === 'track' && q[1]) {
+	    uid = q[1];
 	  }
 	  core[q[0]].apply(core, q.splice(1));
 	}
