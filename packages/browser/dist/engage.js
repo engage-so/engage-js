@@ -1,5 +1,5 @@
 /**
- * Version: 1.2.0; 2021-03-23
+ * Version: 1.3.0; 2021-06-17
  */
 
 (function (global, factory) {
@@ -582,6 +582,7 @@
 	}
 	var error = EngageError;
 
+	// const root = 'http://localhost:3001'
 	const root = 'https://api.engage.so';
 	if (typeof btoa === 'undefined') {
 	  commonjsGlobal.btoa = function (str) {
@@ -594,7 +595,7 @@
 	  secret: ''
 	};
 
-	async function request (url, params, method) {
+	async function _request (url, params, method) {
 	  try {
 	    const response = await browserPonyfill(url, {
 	      method,
@@ -618,6 +619,12 @@
 	    return { error: 'API connection error' }
 	  }
 	}
+
+	// Alias of _request method
+	// Same with _request for now but can later have modifications
+	const request = (url, params, method) => {
+	  return _request(`${root}${url}`, params, method)
+	};
 
 	const init = (o) => {
 	  if (!o) {
@@ -661,7 +668,7 @@
 	    }
 	  });
 
-	  return request(`${root}/users/${o.id}`, params, 'PUT')
+	  return _request(`${root}/users/${o.id}`, params, 'PUT')
 	};
 
 	const addAttribute = async (uid, data) => {
@@ -684,7 +691,7 @@
 	    }
 	  });
 
-	  return request(`${root}/users/${uid}`, params, 'PUT')
+	  return _request(`${root}/users/${uid}`, params, 'PUT')
 	};
 
 	const track = async (uid, data) => {
@@ -705,24 +712,124 @@
 	    }
 	  }
 
-	  return request(`${root}/users/${uid}/events`, data, 'POST')
+	  return _request(`${root}/users/${uid}/events`, data, 'POST')
 	};
 
 	var core = {
 	  init,
 	  identify,
 	  addAttribute,
-	  track
+	  track,
+	  request
 	};
 
-	// Browser specific will come here
+	let uid;
+	let channel;
+	let framePort;
+	let engageIframe;
+
+	function loadScript (url, callback) {
+	  var script = document.createElement('script');
+	  script.type = 'text/javascript';
+	  script.src = url;
+
+	  script.onreadystatechange = callback;
+	  script.onload = callback;
+
+	  document.getElementsByTagName('head').item(0).appendChild(script);
+	}
+
+	function loadMessageFrame (onLoad) {
+	  if (document.getElementById('engage_wp_frame')) {
+	    return
+	  }
+	  channel = new MessageChannel();
+	  framePort = channel.port1;
+	  framePort.onmessage = onMessage;
+
+	  const w = window.innerWidth < 520 ? '100%' : '520px';
+
+	  engageIframe = document.createElement('iframe');
+	  engageIframe.src = 'https://d2969mkc0xw38n.cloudfront.net/widget/widget.html';
+	  engageIframe.id = 'engage_wp_frame';
+	  engageIframe.style = 'border:0;width:' + w + ';position:absolute;height:330px;bottom:0;right:0;';
+	  document.body.appendChild(engageIframe);
+	  // Let it load
+	  engageIframe.addEventListener('load', onLoad);
+	}
+
+	function updateContent (data) {
+	  if (engageIframe.style.display === 'none') {
+	    engageIframe.style.display = 'block';
+	  }
+	  framePort.postMessage(data);
+	}
+
+	async function checkNew () {
+	  // Is there new content?
+	  try {
+	    const pending = await core.request('/v1/messages/push/latest?uid=' + uid);
+	    if (pending && pending.msg_id) {
+	      if (!engageIframe) {
+	        loadMessageFrame(() => {
+	          engageIframe.contentWindow.postMessage('init', '*', [channel.port2]);
+	          updateContent(pending);
+	        });
+	      } else {
+	        updateContent(pending);
+	      }
+	    }
+	  } catch (e) {
+	    console.log(e);
+	  }
+	}
+
+	function onMessage (e) {
+	  const data = e.data;
+	  if (data.action === 'resize' && engageIframe.style.display !== 'none') {
+	    engageIframe.style.height = data.height + 'px';
+	    return
+	  }
+	  if (data.action === 'close') {
+	    // Mark as read on close #todo
+	    // Hide frame
+	    engageIframe.style.display = 'none';
+	    engageIframe.style.height = '330px';
+	  }
+	}
 
 	// Run pending queues
-	// console.log(Engage.queue)
 	const queue = window.engage && window.engage.queue ? window.engage.queue.slice(0) : [];
 	// const queue = []
 	for (const q of queue) {
+	  if (q[0] === 'identify' && q[1] && q[1].id) {
+	    uid = q[1].id;
+	  }
 	  core[q[0]].apply(core, q.splice(1));
+	}
+
+	if (uid) {
+	  // Add iframe
+	  // Include Socket client
+	  loadScript('https://cdn.socket.io/4.1.1/socket.io.min.js', () => {
+	    const socket = io('https://ws.engage.so/webpush');
+	    socket.on('connect', () => {
+	      socket.emit('room', uid);
+	    });
+	    socket.on('webpush/notification', (data) => {
+	      if (!engageIframe) {
+	        loadMessageFrame(() => {
+	          engageIframe.contentWindow.postMessage('init', '*', [channel.port2]);
+	          updateContent(data);
+	        });
+	      } else {
+	        updateContent(data);
+	      }
+	    });
+	  });
+
+	  // Does user have pending messages?
+	  checkNew();
 	}
 
 	var browser = core;

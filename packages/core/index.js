@@ -12,7 +12,7 @@ const options = {
   secret: ''
 }
 
-async function request (url, params, method) {
+async function _request (url, params, method) {
   try {
     const response = await fetch(url, {
       method,
@@ -35,6 +35,12 @@ async function request (url, params, method) {
     // console.log(e)
     return { error: 'API connection error' }
   }
+}
+
+// Alias of _request method
+// Same with _request for now but can later have modifications
+const request = (url, params, method) => {
+  return _request(`${root}${url}`, params, method)
 }
 
 const init = (o) => {
@@ -79,7 +85,7 @@ const identify = async (o) => {
     }
   })
 
-  return request(`${root}/users/${o.id}`, params, 'PUT')
+  return _request(`${root}/users/${o.id}`, params, 'PUT')
 }
 
 const addAttribute = async (uid, data) => {
@@ -102,7 +108,7 @@ const addAttribute = async (uid, data) => {
     }
   })
 
-  return request(`${root}/users/${uid}`, params, 'PUT')
+  return _request(`${root}/users/${uid}`, params, 'PUT')
 }
 
 const track = async (uid, data) => {
@@ -123,12 +129,13 @@ const track = async (uid, data) => {
     }
   }
 
-  return request(`${root}/users/${uid}/events`, data, 'POST')
+  return _request(`${root}/users/${uid}/events`, data, 'POST')
 }
 
 module.exports = {
   init,
   identify,
   addAttribute,
-  track
+  track,
+  request
 }
