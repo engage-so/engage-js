@@ -769,7 +769,6 @@
 	  try {
 	    const pending = await core.request('/v1/messages/push/latest?uid=' + uid);
 	    if (pending && pending.msg_id) {
-	      console.log('sending.....');
 	      if (!engageIframe) {
 	        loadMessageFrame(() => {
 	          engageIframe.contentWindow.postMessage({
@@ -782,7 +781,7 @@
 	      }
 	    }
 	  } catch (e) {
-	    console.log(e);
+	    console.warn(e);
 	  }
 	}
 
