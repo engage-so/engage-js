@@ -1,5 +1,5 @@
 /**
- * Version: 1.3.1; 2021-06-18
+ * Version: 1.3.2; 2021-06-21
  */
 
 (function (global, factory) {
@@ -749,9 +749,9 @@
 	  const w = window.innerWidth < 520 ? '100%' : '520px';
 
 	  engageIframe = document.createElement('iframe');
-	  engageIframe.src = 'https://d2969mkc0xw38n.cloudfront.net/widget/widget.html';
+	  engageIframe.src = 'https://d2969mkc0xw38n.cloudfront.net/widget/widget_1.1.0.html';
 	  engageIframe.id = 'engage_wp_frame';
-	  engageIframe.style = 'border:0;width:' + w + ';position:absolute;height:330px;bottom:0;right:0;';
+	  engageIframe.style = 'border:0;width:' + w + ';position:fixed;height:330px;bottom:0;right:0;z-index:10';
 	  document.body.appendChild(engageIframe);
 	  // Let it load
 	  engageIframe.addEventListener('load', onLoad);
@@ -769,9 +769,12 @@
 	  try {
 	    const pending = await core.request('/v1/messages/push/latest?uid=' + uid);
 	    if (pending && pending.msg_id) {
+	      console.log('sending.....');
 	      if (!engageIframe) {
 	        loadMessageFrame(() => {
-	          engageIframe.contentWindow.postMessage('init', '*', [channel.port2]);
+	          engageIframe.contentWindow.postMessage({
+	            h: window.innerHeight
+	          }, '*', [channel.port2]);
 	          updateContent(pending);
 	        });
 	      } else {
@@ -786,6 +789,9 @@
 	function onMessage (e) {
 	  const data = e.data;
 	  if (data.action === 'resize' && engageIframe.style.display !== 'none') {
+	    if (data.height > window.innerHeight) {
+	      data.height = window.innerHeight - 55;
+	    }
 	    engageIframe.style.height = data.height + 'px';
 	    return
 	  }
@@ -820,7 +826,8 @@
 	    socket.on('webpush/notification', (data) => {
 	      if (!engageIframe) {
 	        loadMessageFrame(() => {
-	          engageIframe.contentWindow.postMessage('init', '*', [channel.port2]);
+	          const m = { h: window.innerHeight };
+	          engageIframe.contentWindow.postMessage(m, '*', [channel.port2]);
 	          updateContent(data);
 	        });
 	      } else {
