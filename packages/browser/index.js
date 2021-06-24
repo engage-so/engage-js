@@ -27,7 +27,7 @@ function loadMessageFrame (onLoad) {
   const w = window.innerWidth < 520 ? '100%' : '520px'
 
   engageIframe = document.createElement('iframe')
-  engageIframe.src = 'https://d2969mkc0xw38n.cloudfront.net/widget/widget_1.1.0.html'
+  engageIframe.src = 'https://d2969mkc0xw38n.cloudfront.net/widget/widget_1.2.0.html'
   engageIframe.id = 'engage_wp_frame'
   engageIframe.style = 'border:0;width:' + w + ';position:fixed;height:330px;bottom:0;right:0;z-index:10'
   document.body.appendChild(engageIframe)
