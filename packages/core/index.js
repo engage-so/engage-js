@@ -1,4 +1,5 @@
 const fetch = require('cross-fetch')
+const Buffer = require('buffer/').Buffer
 const EngageError = require('./error')
 const root = 'https://api.engage.so'
 if (typeof btoa === 'undefined') {

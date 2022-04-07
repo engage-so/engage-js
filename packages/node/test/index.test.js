@@ -37,8 +37,10 @@ describe('Identify', () => {
   test('should throw if empty object passed', async () => {
     await expect(Engage.identify({})).rejects.toThrowError(/id/i)
   })
-  test('should throw if no email passed', async () => {
-    await expect(Engage.identify({ id })).rejects.toThrowError(/email/i)
+  test('should not throw if no email passed', async () => {
+    expect(() => {
+      Engage.identify({ id })
+    }).not.toThrowError()
   })
   test('should throw if invalid email passed', async () => {
     await expect(Engage.identify({
@@ -51,7 +53,8 @@ describe('Identify', () => {
       id,
       email: 'fickledreams@yahoo.com'
     })).resolves.toMatchObject({
-      status: 'ok'
+      uid: id,
+      email: 'fickledreams@yahoo.com'
     })
   })
 })
@@ -72,7 +75,9 @@ describe('Add attribute', () => {
       active: true,
       created_at: '2020-08-11'
     })).resolves.toMatchObject({
-      status: 'ok'
+      uid: id,
+      email: 'fickledreams@yahoo.com',
+      first_name: 'Opeyemi'
     })
   })
 })
