@@ -58,6 +58,22 @@ describe('Identify', () => {
       email: 'fickledreams@yahoo.com'
     })
   })
+  test('should turn to group if has is_group', async () => {
+    await expect(Engage.identify({
+      id,
+      is_group: true
+    })).resolves.toMatchObject({
+      is_group: true
+    })
+  })
+  test('should turn to user if is_group is not added', async () => {
+    await expect(Engage.identify({
+      id,
+      is_group: false
+    })).resolves.toMatchObject({
+      is_group: false
+    })
+  })
 })
 
 describe('Add attribute', () => {
@@ -79,6 +95,20 @@ describe('Add attribute', () => {
       uid: id,
       email: 'fickledreams@yahoo.com',
       first_name: 'Opeyemi'
+    })
+  })
+  test('should turn to group if has is_group', async () => {
+    await expect(Engage.addAttribute(id, {
+      is_group: true
+    })).resolves.toMatchObject({
+      is_group: true
+    })
+  })
+  test('should turn to user if is_group is not added', async () => {
+    await expect(Engage.addAttribute(id, {
+      is_group: false
+    })).resolves.toMatchObject({
+      is_group: false
     })
   })
 })

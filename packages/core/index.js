@@ -77,12 +77,12 @@ const identify = async (o) => {
   if (o.email && !/^\S+@\S+$/.test(o.email)) {
     throw new EngageError('Email invalid.')
   }
-  const allowed = ['id', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
+  const allowed = ['id', 'is_group', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
   const params = {
     meta: {}
   }
   for (const k in o) {
-    if (allowed.indexOf(k) !== -1) {
+    if (allowed.includes(k)) {
       params[k] = o[k]
     } else {
       params.meta[k] = o[k]
@@ -102,13 +102,13 @@ const addAttribute = async (uid, data) => {
   if (!Object.keys(data).length) {
     throw new EngageError('Attributes missing.')
   }
-  const notMeta = ['created_at', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name']
+  const notMeta = ['created_at', 'is_group', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name']
   const params = { meta: {} }
   for (const k in data) {
-    if (notMeta.indexOf(k) === -1) {
-      params.meta[k] = data[k]
-    } else {
+    if (notMeta.includes(k)) {
       params[k] = data[k]
+    } else {
+      params.meta[k] = data[k]
     }
   }
 
