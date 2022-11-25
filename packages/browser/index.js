@@ -6,7 +6,7 @@ let framePort
 let engageIframe
 
 function loadScript (url, callback) {
-  var script = document.createElement('script')
+  const script = document.createElement('script')
   script.type = 'text/javascript'
   script.src = url
 
@@ -86,8 +86,9 @@ const queue = window.engage && window.engage.queue ? window.engage.queue.slice(0
 for (const q of queue) {
   if (q[0] === 'identify' && q[1] && q[1].id) {
     uid = q[1].id
-  } else if (!uid && q[0] === 'track' && q[1]) {
-    uid = q[1]
+    // Has to be identify alone
+    // } else if (!uid && q[0] === 'track' && q[1]) {
+    //   uid = q[1]
   }
   Engage[q[0]].apply(Engage, q.splice(1))
 }
