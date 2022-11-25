@@ -1,5 +1,5 @@
 /**
- * Version: 1.3.4; 2022-04-07
+ * Version: 1.4.0; 2022-11-25
  */
 
 (function (global, factory) {
@@ -2938,7 +2938,7 @@
 
 	const Buffer = buffer.Buffer;
 
-	const root = 'https://api.engage.so';
+	const root = 'https://api.engage.so/v1';
 	if (typeof btoa === 'undefined') {
 	  commonjsGlobal.btoa = function (str) {
 	    return Buffer.from(str).toString('base64')
@@ -2952,6 +2952,9 @@
 
 	async function _request (url, params, method) {
 	  try {
+	    if (!params) {
+	      params = {};
+	    }
 	    const response = await browserPonyfill(url, {
 	      method,
 	      headers: {
@@ -2983,7 +2986,7 @@
 
 	const init = (o) => {
 	  if (!o) {
-	    throw new error('You need to pass in your API key')
+	    throw new error('You need to pass in your API key.')
 	  }
 	  if (typeof o === 'string') {
 	    options.key = o;
@@ -2991,7 +2994,7 @@
 	  }
 
 	  if (!o.key) {
-	    throw new error('`key` missing in object')
+	    throw new error('`key` missing in object.')
 	  }
 	  if (o.key) {
 	    options.key = `${o.key}`;
@@ -3015,46 +3018,46 @@
 	  const params = {
 	    meta: {}
 	  };
-	  Object.keys(o).map(k => {
+	  for (const k in o) {
 	    if (allowed.indexOf(k) !== -1) {
 	      params[k] = o[k];
 	    } else {
 	      params.meta[k] = o[k];
 	    }
-	  });
+	  }
 
 	  return _request(`${root}/users/${o.id}`, params, 'PUT')
 	};
 
 	const addAttribute = async (uid, data) => {
 	  if (!uid) {
-	    throw new error('User id missing')
+	    throw new error('User id missing.')
 	  }
 	  if (!data) {
-	    throw new error('Attributes missing')
+	    throw new error('Attributes missing.')
 	  }
 	  if (!Object.keys(data).length) {
-	    throw new error('Attributes missing')
+	    throw new error('Attributes missing.')
 	  }
 	  const notMeta = ['created_at', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name'];
 	  const params = { meta: {} };
-	  Object.keys(data).map(k => {
+	  for (const k in data) {
 	    if (notMeta.indexOf(k) === -1) {
 	      params.meta[k] = data[k];
 	    } else {
 	      params[k] = data[k];
 	    }
-	  });
+	  }
 
 	  return _request(`${root}/users/${uid}`, params, 'PUT')
 	};
 
 	const track = async (uid, data) => {
 	  if (!uid) {
-	    throw new error('User id missing')
+	    throw new error('User id missing.')
 	  }
 	  if (!data) {
-	    throw new error('Attributes missing')
+	    throw new error('Attributes missing.')
 	  }
 	  if (typeof data === 'string') {
 	    data = {
@@ -3063,11 +3066,65 @@
 	    };
 	  } else {
 	    if (!Object.keys(data).length) {
-	      throw new error('Attributes missing')
+	      throw new error('Attributes missing.')
 	    }
 	  }
 
 	  return _request(`${root}/users/${uid}/events`, data, 'POST')
+	};
+
+	const addToGroup = async (uid, gid, role) => {
+	  if (!uid) {
+	    throw new error('User id missing.')
+	  }
+	  if (!gid) {
+	    throw new error('Group id missing.')
+	  }
+	  if (role && typeof role !== 'string') {
+	    throw new error('Role should be a text.')
+	  }
+	  const g = {
+	    id: gid
+	  };
+	  if (role) {
+	    g.role = role;
+	  }
+	  return _request(`${root}/users/${uid}/groups`, { groups: [g] }, 'POST')
+	};
+	const removeFromGroup = async (uid, gid) => {
+	  if (!uid) {
+	    throw new error('User id missing.')
+	  }
+	  if (!gid) {
+	    throw new error('Group id missing.')
+	  }
+	  return _request(`${root}/users/${uid}/groups/${gid}`, null, 'DELETE')
+	};
+
+	const changeGroupRole = async (uid, gid, role) => {
+	  if (!uid) {
+	    throw new error('User id missing.')
+	  }
+	  if (!gid) {
+	    throw new error('Group id missing.')
+	  }
+	  if (!role) {
+	    throw new error('New role missing.')
+	  }
+	  return _request(`${root}/users/${uid}/groups/${gid}`, { role }, 'PUT')
+	};
+
+	const convertToUser = async (uid) => {
+	  if (!uid) {
+	    throw new error('User id missing.')
+	  }
+	  return _request(`${root}/users/${uid}/convert`, { type: 'user' }, 'POST')
+	};
+	const convertToGroup = async (uid) => {
+	  if (!uid) {
+	    throw new error('User id missing.')
+	  }
+	  return _request(`${root}/users/${uid}/convert`, { type: 'group' }, 'POST')
 	};
 
 	var core = {
@@ -3075,7 +3132,12 @@
 	  identify,
 	  addAttribute,
 	  track,
-	  request
+	  request,
+	  addToGroup,
+	  removeFromGroup,
+	  changeGroupRole,
+	  convertToUser,
+	  convertToGroup
 	};
 
 	let uid;
@@ -3084,7 +3146,7 @@
 	let engageIframe;
 
 	function loadScript (url, callback) {
-	  var script = document.createElement('script');
+	  const script = document.createElement('script');
 	  script.type = 'text/javascript';
 	  script.src = url;
 
@@ -3164,8 +3226,9 @@
 	for (const q of queue) {
 	  if (q[0] === 'identify' && q[1] && q[1].id) {
 	    uid = q[1].id;
-	  } else if (!uid && q[0] === 'track' && q[1]) {
-	    uid = q[1];
+	    // Has to be identify alone
+	    // } else if (!uid && q[0] === 'track' && q[1]) {
+	    //   uid = q[1]
 	  }
 	  core[q[0]].apply(core, q.splice(1));
 	}
