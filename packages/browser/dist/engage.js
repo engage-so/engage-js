@@ -1,5 +1,5 @@
 /**
- * Version: 1.4.0; 2022-11-25
+ * Version: 1.4.1; 2022-11-25
  */
 
 (function (global, factory) {
@@ -3014,12 +3014,12 @@
 	  if (o.email && !/^\S+@\S+$/.test(o.email)) {
 	    throw new error('Email invalid.')
 	  }
-	  const allowed = ['id', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name'];
+	  const allowed = ['id', 'is_group', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name'];
 	  const params = {
 	    meta: {}
 	  };
 	  for (const k in o) {
-	    if (allowed.indexOf(k) !== -1) {
+	    if (allowed.includes(k)) {
 	      params[k] = o[k];
 	    } else {
 	      params.meta[k] = o[k];
@@ -3039,13 +3039,13 @@
 	  if (!Object.keys(data).length) {
 	    throw new error('Attributes missing.')
 	  }
-	  const notMeta = ['created_at', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name'];
+	  const notMeta = ['created_at', 'is_group', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name'];
 	  const params = { meta: {} };
 	  for (const k in data) {
-	    if (notMeta.indexOf(k) === -1) {
-	      params.meta[k] = data[k];
-	    } else {
+	    if (notMeta.includes(k)) {
 	      params[k] = data[k];
+	    } else {
+	      params.meta[k] = data[k];
 	    }
 	  }
 
