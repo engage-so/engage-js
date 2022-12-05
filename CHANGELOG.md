@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.5.0] - 2022-12-05
+### Fixed
+- Changed groups to accounts
+
 ## [1.4.1] - 2022-11-25
 ### Fixed
 - Update `identify` and `addAttribute` with group support.

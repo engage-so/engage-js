@@ -58,20 +58,20 @@ describe('Identify', () => {
       email: 'fickledreams@yahoo.com'
     })
   })
-  test('should turn to group if has is_group', async () => {
+  test('should turn to account if has is_account', async () => {
     await expect(Engage.identify({
       id,
-      is_group: true
+      is_account: true
     })).resolves.toMatchObject({
-      is_group: true
+      is_account: true
     })
   })
-  test('should turn to user if is_group is not added', async () => {
+  test('should turn to user if is_account is not added', async () => {
     await expect(Engage.identify({
       id,
-      is_group: false
+      is_account: false
     })).resolves.toMatchObject({
-      is_group: false
+      is_account: false
     })
   })
 })
@@ -97,18 +97,18 @@ describe('Add attribute', () => {
       first_name: 'Opeyemi'
     })
   })
-  test('should turn to group if has is_group', async () => {
+  test('should turn to account if has is_account', async () => {
     await expect(Engage.addAttribute(id, {
-      is_group: true
+      is_account: true
     })).resolves.toMatchObject({
-      is_group: true
+      is_account: true
     })
   })
-  test('should turn to user if is_group is not added', async () => {
+  test('should turn to user if is_account is not added', async () => {
     await expect(Engage.addAttribute(id, {
-      is_group: false
+      is_account: false
     })).resolves.toMatchObject({
-      is_group: false
+      is_account: false
     })
   })
 })
@@ -150,51 +150,51 @@ describe('Track', () => {
   })
 })
 
-describe('Convert to group', () => {
-  test('should convert to group', async () => {
-    await expect(Engage.convertToGroup(gid)).resolves.toMatchObject({
-      is_group: true
+describe('Convert to account', () => {
+  test('should convert to account', async () => {
+    await expect(Engage.convertToAccount(gid)).resolves.toMatchObject({
+      is_account: true
     })
   })
 })
 
-describe('Convert to user', () => {
-  test('should convert to user', async () => {
-    await expect(Engage.convertToUser(gid)).resolves.toMatchObject({
-      is_group: false
+describe('Convert to customer', () => {
+  test('should convert to customer', async () => {
+    await expect(Engage.convertToCustomer(gid)).resolves.toMatchObject({
+      is_account: false
     })
   })
 })
 
-describe('Add to group', () => {
-  test('should throw if no group id added', async () => {
-    await expect(Engage.addToGroup(id)).rejects.toThrowError(/id/)
+describe('Add to account', () => {
+  test('should throw if no account id added', async () => {
+    await expect(Engage.addToAccount(id)).rejects.toThrowError(/id/)
   })
   test('should throw if role and role not string', async () => {
-    await expect(Engage.addToGroup(id, gid, [ 'something' ])).rejects.toThrowError(/Role/)
+    await expect(Engage.addToAccount(id, gid, [ 'something' ])).rejects.toThrowError(/Role/)
   })
-  test('should pass if group id added', async () => {
-    await expect(Engage.addToGroup(id, gid)).resolves.toMatchObject({
-      groups: [{
+  test('should pass if account id added', async () => {
+    await expect(Engage.addToAccount(id, gid)).resolves.toMatchObject({
+      accounts: [{
         id: gid
       }]
     })
   })
 })
 
-describe('Change group role', () => {
+describe('Change account role', () => {
   test('should throw if no parameters', async () => {
-    await expect(Engage.changeGroupRole()).rejects.toThrowError(/missing/)
+    await expect(Engage.changeAccountRole()).rejects.toThrowError(/missing/)
   })
-  test('should throw if no group id', async () => {
-    await expect(Engage.changeGroupRole(id)).rejects.toThrowError(/missing/)
+  test('should throw if no account id', async () => {
+    await expect(Engage.changeAccountRole(id)).rejects.toThrowError(/missing/)
   })
   test('should throw if no role', async () => {
-    await expect(Engage.changeGroupRole(id, gid)).rejects.toThrowError(/missing/)
+    await expect(Engage.changeAccountRole(id, gid)).rejects.toThrowError(/missing/)
   })
   test('should pass if all parameters set', async () => {
-    await expect(Engage.changeGroupRole(id, gid, 'owner')).resolves.toMatchObject({
-      groups: [{
+    await expect(Engage.changeAccountRole(id, gid, 'owner')).resolves.toMatchObject({
+      accounts: [{
         id: gid,
         role: 'owner'
       }]
@@ -202,16 +202,16 @@ describe('Change group role', () => {
   })
 })
 
-describe('Remove from group', () => {
+describe('Remove from account', () => {
   test('should throw if no parameters', async () => {
-    await expect(Engage.removeFromGroup()).rejects.toThrowError(/missing/)
+    await expect(Engage.removeFromAccount()).rejects.toThrowError(/missing/)
   })
-  test('should throw if no group id', async () => {
-    await expect(Engage.removeFromGroup(id)).rejects.toThrowError(/missing/)
+  test('should throw if no account id', async () => {
+    await expect(Engage.removeFromAccount(id)).rejects.toThrowError(/missing/)
   })
   test('should pass if all parameters set', async () => {
-    await expect(Engage.removeFromGroup(id, gid)).resolves.toMatchObject({
-      groups: []
+    await expect(Engage.removeFromAccount(id, gid)).resolves.toMatchObject({
+      accounts: []
     })
   })
 })

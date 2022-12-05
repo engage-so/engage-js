@@ -77,7 +77,7 @@ const identify = async (o) => {
   if (o.email && !/^\S+@\S+$/.test(o.email)) {
     throw new EngageError('Email invalid.')
   }
-  const allowed = ['id', 'is_group', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
+  const allowed = ['id', 'is_account', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
   const params = {
     meta: {}
   }
@@ -102,7 +102,7 @@ const addAttribute = async (uid, data) => {
   if (!Object.keys(data).length) {
     throw new EngageError('Attributes missing.')
   }
-  const notMeta = ['created_at', 'is_group', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name']
+  const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name']
   const params = { meta: {} }
   for (const k in data) {
     if (notMeta.includes(k)) {
@@ -136,12 +136,12 @@ const track = async (uid, data) => {
   return _request(`${root}/users/${uid}/events`, data, 'POST')
 }
 
-const addToGroup = async (uid, gid, role) => {
+const addToAccount = async (uid, gid, role) => {
   if (!uid) {
     throw new EngageError('User id missing.')
   }
   if (!gid) {
-    throw new EngageError('Group id missing.')
+    throw new EngageError('Account id missing.')
   }
   if (role && typeof role !== 'string') {
     throw new EngageError('Role should be a text.')
@@ -152,42 +152,42 @@ const addToGroup = async (uid, gid, role) => {
   if (role) {
     g.role = role
   }
-  return _request(`${root}/users/${uid}/groups`, { groups: [g] }, 'POST')
+  return _request(`${root}/users/${uid}/accounts`, { accounts: [g] }, 'POST')
 }
-const removeFromGroup = async (uid, gid) => {
+const removeFromAccount = async (uid, gid) => {
   if (!uid) {
     throw new EngageError('User id missing.')
   }
   if (!gid) {
-    throw new EngageError('Group id missing.')
+    throw new EngageError('Account id missing.')
   }
-  return _request(`${root}/users/${uid}/groups/${gid}`, null, 'DELETE')
+  return _request(`${root}/users/${uid}/accounts/${gid}`, null, 'DELETE')
 }
 
-const changeGroupRole = async (uid, gid, role) => {
+const changeAccountRole = async (uid, gid, role) => {
   if (!uid) {
     throw new EngageError('User id missing.')
   }
   if (!gid) {
-    throw new EngageError('Group id missing.')
+    throw new EngageError('Account id missing.')
   }
   if (!role) {
     throw new EngageError('New role missing.')
   }
-  return _request(`${root}/users/${uid}/groups/${gid}`, { role }, 'PUT')
+  return _request(`${root}/users/${uid}/accounts/${gid}`, { role }, 'PUT')
 }
 
-const convertToUser = async (uid) => {
+const convertToCustomer = async (uid) => {
   if (!uid) {
     throw new EngageError('User id missing.')
   }
-  return _request(`${root}/users/${uid}/convert`, { type: 'user' }, 'POST')
+  return _request(`${root}/users/${uid}/convert`, { type: 'customer' }, 'POST')
 }
-const convertToGroup = async (uid) => {
+const convertToAccount = async (uid) => {
   if (!uid) {
     throw new EngageError('User id missing.')
   }
-  return _request(`${root}/users/${uid}/convert`, { type: 'group' }, 'POST')
+  return _request(`${root}/users/${uid}/convert`, { type: 'account' }, 'POST')
 }
 
 module.exports = {
@@ -196,9 +196,9 @@ module.exports = {
   addAttribute,
   track,
   request,
-  addToGroup,
-  removeFromGroup,
-  changeGroupRole,
-  convertToUser,
-  convertToGroup
+  addToAccount,
+  removeFromAccount,
+  changeAccountRole,
+  convertToCustomer,
+  convertToAccount
 }
