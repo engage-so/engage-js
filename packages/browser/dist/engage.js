@@ -1,5 +1,5 @@
 /**
- * Version: 1.5.0; 2023-02-02
+ * Version: 1.6.0; 2023-02-02
  */
 
 (function (global, factory) {
