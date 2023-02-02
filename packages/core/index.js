@@ -15,17 +15,17 @@ const options = {
 
 async function _request (url, params, method) {
   try {
-    if (!params) {
-      params = {}
-    }
-    const response = await fetch(url, {
+    const o = {
       method,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
         Authorization: `Basic ${btoa(`${options.key}:${options.secret}`)}`
       },
-      body: JSON.stringify(params)
-    })
+    }
+    if (params) {
+      o.body = JSON.stringify(params)
+    }
+    const response = await fetch(url, o)
     const body = await response.json()
     let error = 'API connection error'
     if (!response.ok) {
