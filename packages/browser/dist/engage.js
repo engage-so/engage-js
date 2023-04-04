@@ -1,5 +1,5 @@
 /**
- * Version: 1.6.0; 2023-02-02
+ * Version: 1.7.0; 2023-04-04
  */
 
 (function (global, factory) {
@@ -3006,7 +3006,7 @@
 
 	const identify = async (o) => {
 	  if (!o) {
-	    throw new error('You need to pass an object with at least an id and email.')
+	    throw new error('You need to pass an object with at least an id.')
 	  }
 	  if (!o.id) {
 	    throw new error('ID missing.')
@@ -3014,7 +3014,7 @@
 	  if (o.email && !/^\S+@\S+$/.test(o.email)) {
 	    throw new error('Email invalid.')
 	  }
-	  const allowed = ['id', 'is_account', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name'];
+	  const allowed = ['id', 'is_account', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name', 'tz'];
 	  const params = {
 	    meta: {}
 	  };
@@ -3039,7 +3039,7 @@
 	  if (!Object.keys(data).length) {
 	    throw new error('Attributes missing.')
 	  }
-	  const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name'];
+	  const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name', 'tz', 'app_version', 'app_build', 'app_last_active'];
 	  const params = { meta: {} };
 	  for (const k in data) {
 	    if (notMeta.includes(k)) {
@@ -3071,6 +3071,17 @@
 	  }
 
 	  return _request(`${root}/users/${uid}/events`, data, 'POST')
+	};
+
+	const merge = async (source, destination) => {
+	  if (!source) {
+	    throw new error('Source ID missing.')
+	  }
+	  if (!destination) {
+	    throw new error('Destination ID missing.')
+	  }
+
+	  return _request(`${root}/users/merge`, { source, destination }, 'POST')
 	};
 
 	const addToAccount = async (uid, gid, role) => {
@@ -3132,6 +3143,7 @@
 	  identify,
 	  addAttribute,
 	  track,
+	  merge,
 	  request,
 	  addToAccount,
 	  removeFromAccount,
