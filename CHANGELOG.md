@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2023-04-04
+### Added
+- `merge` - Merge a user profile with another
+
 ## [1.6.0] - 2023-02-01
 ### Added
 - Help widget
@@ -30,7 +34,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for web push.
 
-[Unreleased]: https://github.com/engage-so/engage-js/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/engage-so/engage-js/compare/v1.6.0...HEAD
+[1.7.0]: https://github.com/engage-so/engage-js/releases/tag/v1.7.0
+[1.6.0]: https://github.com/engage-so/engage-js/releases/tag/v1.6.0
 [1.5.0]: https://github.com/engage-so/engage-js/releases/tag/v1.5.0
 [1.3.4]: https://github.com/engage-so/engage-js/releases/tag/v1.3.4
 [1.3.2]: https://github.com/engage-so/engage-js/releases/tag/v1.3.2

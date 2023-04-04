@@ -69,7 +69,7 @@ const init = (o) => {
 
 const identify = async (o) => {
   if (!o) {
-    throw new EngageError('You need to pass an object with at least an id and email.')
+    throw new EngageError('You need to pass an object with at least an id.')
   }
   if (!o.id) {
     throw new EngageError('ID missing.')
@@ -77,7 +77,7 @@ const identify = async (o) => {
   if (o.email && !/^\S+@\S+$/.test(o.email)) {
     throw new EngageError('Email invalid.')
   }
-  const allowed = ['id', 'is_account', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name']
+  const allowed = ['id', 'is_account', 'email', 'number', 'created_at', 'device_token', 'device_platform', 'first_name', 'last_name', 'tz']
   const params = {
     meta: {}
   }
@@ -102,7 +102,7 @@ const addAttribute = async (uid, data) => {
   if (!Object.keys(data).length) {
     throw new EngageError('Attributes missing.')
   }
-  const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name']
+  const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name', 'tz', 'app_version', 'app_build', 'app_last_active']
   const params = { meta: {} }
   for (const k in data) {
     if (notMeta.includes(k)) {
@@ -134,6 +134,17 @@ const track = async (uid, data) => {
   }
 
   return _request(`${root}/users/${uid}/events`, data, 'POST')
+}
+
+const merge = async (source, destination) => {
+  if (!source) {
+    throw new EngageError('Source ID missing.')
+  }
+  if (!destination) {
+    throw new EngageError('Destination ID missing.')
+  }
+
+  return _request(`${root}/users/merge`, { source, destination }, 'POST')
 }
 
 const addToAccount = async (uid, gid, role) => {
@@ -195,6 +206,7 @@ module.exports = {
   identify,
   addAttribute,
   track,
+  merge,
   request,
   addToAccount,
   removeFromAccount,

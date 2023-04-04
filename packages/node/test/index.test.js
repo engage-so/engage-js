@@ -1,6 +1,7 @@
 const Engage = require('../index')
-const id = '1234'
-const gid = 'abcd'
+const id = 'uzl38704@omeie.com'
+const sid = 'a6236e83-f7c1-4003-8e1a-951f6e1d5c60'
+const gid = '7d1a5e27-5a6b-4b38-a8bd-e59b8a1b2f41'
 
 describe('Init', () => {
   test('should throw if no parameters sent', () => {
@@ -146,6 +147,20 @@ describe('Track', () => {
       }
     })).resolves.toMatchObject({
       status: 'ok'
+    })
+  })
+})
+
+describe('Merge users', () => {
+  test('should throw if no source id', async () => {
+    await expect(Engage.merge()).rejects.toThrowError(/id/i)
+  })
+  test('should throw if no destination id', async () => {
+    await expect(Engage.merge(id)).rejects.toThrowError(/id/i)
+  })
+  test('should merge if all is well', async () => {
+    await expect(Engage.merge(sid, id)).resolves.toMatchObject({
+      status: 'queued'
     })
   })
 })
