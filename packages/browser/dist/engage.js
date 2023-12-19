@@ -1,5 +1,5 @@
 /**
- * Version: 1.7.0; 2023-08-24
+ * Version: 1.7.0; 2023-10-13
  */
 
 (function (global, factory) {
@@ -3221,6 +3221,33 @@ height: 60px;
 border-radius: 100%;
 background-color: #0d74ed
 }
+.engage-widget-container .welcome {
+animation: show 600ms 100ms cubic-bezier(0.38, 0.97, 0.56, 0.76) forwards;
+opacity: 0;
+position: fixed;
+bottom: 90px;
+font: 14px/1.5 Helvetica,Arial,sans-serif;;
+color: #222;
+border-radius: 8px;
+right: 20px;
+box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+cursor: pointer;
+max-width: 300px;
+padding: 1.2rem;
+background-color: #fff
+}
+.engage-widget-container .welcome a svg {
+color:#444
+}
+.engage-widget-container .welcome a:hover svg {
+color:#111
+}
+@keyframes show {
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
 .engage-widget-container .badge {
 position: absolute;
 top: 0;
@@ -3424,7 +3451,7 @@ transition: width .5s, height .5s;
 	  }
 	  if (data.action === 'ack') {
 	    // Mark message as read
-	    core.request('/messages/chat//ack', { id: data.id }, 'POST')
+	    core.request('/messages/chat/ack', { id: data.id }, 'POST')
 	      .then(() => {});
 	  }
 	}
@@ -3435,6 +3462,11 @@ transition: width .5s, height .5s;
 	    document.title = docTitle;
 	    badge = 0;
 	    updateButtonBadge();
+	    // Clear welcome
+	    const wd = document.querySelector('.engage-widget-container .welcome');
+	    if (wd) {
+	      wd.remove();
+	    }
 	  }
 	  containerDiv.classList.toggle('opened');
 	}
@@ -3460,7 +3492,7 @@ ${body}
 	  closeDiv.style.cssText = 'padding:0 1em 0.5em 0;text-align:right';
 	  const close = document.createElement('a');
 	  close.setAttribute('href', '#');
-	  close.innerHTML = `<svg width="24" height="24" style="width:24;height:24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>`;
+	  close.innerHTML = `<svg width="24" height="24" style="width:24px;height:24px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>`;
 	  close.addEventListener('click', (e) => {
 	    e.preventDefault();
 	    document.querySelector('.engage-widget-webia').remove();
@@ -3635,6 +3667,30 @@ ${body}
 	          // Other browsers
 	          styleSheet.innerHTML = style;
 	        }
+	      }
+	      if (account.features.chat.welcome) {
+	        const wDiv = document.createElement('div');
+	        wDiv.addEventListener('click', () => {
+	          toggleWidget();
+	        });
+	        wDiv.innerText = account.features.chat.welcome;
+
+	        const closeDiv = document.createElement('div');
+	        closeDiv.style.cssText = 'position:absolute;right:5px;top:5px';
+	        const close = document.createElement('a');
+	        close.setAttribute('href', '#');
+	        close.innerHTML = `<svg width="18" height="18" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>`;
+	        close.addEventListener('click', (e) => {
+	          e.preventDefault();
+	          document.querySelector('.engage-widget-container .welcome').remove();
+	        });
+	        closeDiv.appendChild(close);
+
+	        const msgDiv = document.createElement('div');
+	        msgDiv.className = 'welcome';
+	        msgDiv.appendChild(closeDiv);
+	        msgDiv.appendChild(wDiv);
+	        containerDiv.appendChild(msgDiv);
 	      }
 	    }
 	  } catch (e) {
