@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const jsdom = require('jsdom')
+const { MessageChannel } = require('node:worker_threads')
 const { JSDOM } = jsdom
 const virtualConsole = new jsdom.VirtualConsole()
 let error
@@ -17,18 +18,15 @@ describe('Bundle for browser', () => {
   })
   test('window should have Engage object', async () => {
     const o = await new Promise((resolve) => {
-      const dom = new JSDOM('<!DOCTYPE html><head></head><body><div>engage</div></body>', {
+      const { window } = new JSDOM('', {
         runScripts: 'dangerously',
-        resources: 'usable',
         virtualConsole
       })
-      const scriptEl = dom.window.document.createElement('script')
-      scriptEl.textContent = fs.readFileSync(path.join(__dirname, '../dist/engage.js'), 'utf8')
-      dom.window.document.head.appendChild(scriptEl)
-      dom.window.document.addEventListener('DOMContentLoaded', () => {
-        // console.log(dom.window)
-        resolve(dom.window.Engage)
-      })
+      const document = window.document
+      window.MessageChannel = MessageChannel
+      const scriptContent = fs.readFileSync(path.join(__dirname, '../dist/engage.js'), { encoding: 'utf-8' })
+      window.eval(scriptContent)
+      resolve(window.Engage)
     })
     expect(o).toMatchObject({
       init: expect.anything(),

@@ -1,7 +1,7 @@
 {
   "name": "@engage_so/js",
-  "version": "1.7.0",
-  "description": "Event driven customer segmentation and targeted engagement.",
+  "version": "2.0.0",
+  "description": "Engage JavaScript SDK",
   "main": "node/index.js",
   "browser": "browser/index.js",
   "homepage": "https://engage.so/",
@@ -11,8 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/browser": "^1.7.0",
-    "@engage_so/node": "^1.7.0"
-  },
-  "gitHead": "26d02231e2e44463efec8b171d398f0c57303ac7"
+    "@engage_so/browser": "^2.0.0",
+    "@engage_so/node": "^2.0.0"
+  }
 }

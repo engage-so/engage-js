@@ -1,21 +1,15 @@
 {
   "name": "@engage_so/node",
-  "version": "1.7.0",
-  "description": "Event driven customer segmentation and targeted engagement.",
+  "version": "2.0.0",
+  "description": "Engage JavaScript SDK for Node.js",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
+  "scripts": {},
   "publishConfig": {
     "access": "public"
   },
-  "dependencies": {
-    "@engage_so/core": "^1.7.0"
-  },
   "author": "Engage",
   "license": "MIT",
-  "devDependencies": {
-    "jest": "^26.4.2"
-  },
-  "gitHead": "26d02231e2e44463efec8b171d398f0c57303ac7"
+  "dependencies": {
+    "@engage_so/core": "^2.0.0"
+  }
 }

@@ -1,22 +1,28 @@
 {
   "name": "@engage_so/core",
-  "version": "1.7.0",
-  "description": "Event driven customer segmentation and targeted engagement.",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "Engage JS core.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "build": "tsc -p tsconfig.json",
+    "prepublishOnly": "npm run build"
   },
   "publishConfig": {
     "access": "public"
   },
   "author": "Engage",
   "license": "MIT",
-  "dependencies": {
-    "buffer": "^6.0.3",
-    "cross-fetch": "^3.1.5"
-  },
   "devDependencies": {
-    "jest": "^26.4.2"
+    "@tsconfig/recommended": "^1.0.3",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.19",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-standard": "^12.0.2"
   },
-  "gitHead": "26d02231e2e44463efec8b171d398f0c57303ac7"
+  "dependencies": {
+    "cross-fetch": "^4.0.0"
+  }
 }
