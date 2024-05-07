@@ -237,6 +237,7 @@ const sound = new Audio('https://d2969mkc0xw38n.cloudfront.net/cdn/misc/pop.mp3'
 let account
 let wasDisconnected = false
 let socket
+let orgSocket
 const cid = uuidv4()
 
 function onMessage (e) {
@@ -302,6 +303,20 @@ function onMessage (e) {
     Engage.request('/messages/chat/ack', { id: data.id }, 'POST')
       .then(() => {})
   }
+  if (data.action === 'typing') {
+    orgSocket.emit(data.action, {
+      org: account.id,
+      parent_id: data.parent_id,
+      user: user.uid
+    })
+  }
+  if (data.action === 'stopped-typing') {
+    orgSocket.emit(data.action, {
+      org: account.id,
+      parent_id: data.parent_id,
+      user: user.uid
+    })
+  }
 }
 
 function toggleWidget () {
@@ -361,7 +376,8 @@ ${body}
 }
 
 loadScript('https://cdn.socket.io/4.5.4/socket.io.min.js', () => {
-  socket = io('https://ws.engage.so/webpush');
+  socket = io('https://ws.engage.so/webpush')
+  orgSocket = io('https://ws.engage.so/inbound')
   socket.on('connect', async () => {
     if (uid) {
       joinRoom()
@@ -473,6 +489,9 @@ loadScript('https://cdn.socket.io/4.5.4/socket.io.min.js', () => {
         framePort.postMessage({ data, type: 'new_message' })
         lastMsgId = data.id
       }
+    }
+    if (['typing', 'stopped-typing'].includes(data.type)) {
+      framePort.postMessage({ type: data.type });
     }
     // Web inapp notifications
     if (data.type === 'web' && !opened) {

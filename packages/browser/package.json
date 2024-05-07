@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/browser",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Engage SDK for the browser.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/core": "^1.7.0"
+    "@engage_so/core": "^2.0.0"
   },
   "browserslist": "cover 99.5%",
   "author": "Engage",

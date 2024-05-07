@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/js",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Engage JavaScript SDK",
   "main": "node/index.js",
   "browser": "browser/index.js",
@@ -11,7 +11,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/browser": "^2.0.0",
-    "@engage_so/node": "^2.0.0"
+    "@engage_so/browser": "^2.0.1",
+    "@engage_so/node": "^2.0.1"
   }
 }
