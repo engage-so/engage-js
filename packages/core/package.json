@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/core",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Engage JS core.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,6 +23,7 @@
     "ts-standard": "^12.0.2"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "cross-fetch": "^4.0.0"
   }
 }
