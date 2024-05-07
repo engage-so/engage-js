@@ -10,6 +10,6 @@
   "author": "Engage",
   "license": "MIT",
   "dependencies": {
-    "@engage_so/core": "^2.0.1"
+    "@engage_so/core": "^2.0.2"
   }
 }
