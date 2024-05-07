@@ -1,8 +1,9 @@
 {
   "name": "@engage_so/js",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Engage JavaScript SDK",
   "main": "node/index.js",
+  "react-native": "node/index.js",
   "browser": "browser/index.js",
   "homepage": "https://engage.so/",
   "author": "Engage",
