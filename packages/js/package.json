@@ -3,7 +3,7 @@
   "version": "2.0.5",
   "description": "Engage JavaScript SDK",
   "main": "node/index.js",
-  "react-native": "node/index.js",
+  "react-native": "rn/index.js",
   "browser": "browser/index.js",
   "homepage": "https://engage.so/",
   "author": "Engage",
@@ -12,7 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/browser": "^2.0.4",
-    "@engage_so/node": "^2.0.4"
+    "@engage_so/browser": "^2.0.5",
+    "@engage_so/node": "^2.0.5",
+    "@engage_so/reactnative": "^2.0.5"
   }
 }

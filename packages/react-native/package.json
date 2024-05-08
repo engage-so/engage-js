@@ -1,8 +1,9 @@
 {
-  "name": "@engage_so/node",
+  "name": "@engage_so/reactnative",
   "version": "2.0.5",
-  "description": "Engage JavaScript SDK for Node.js",
+  "description": "Engage JavaScript SDK for React Native",
   "main": "index.js",
+  "type": "module",
   "scripts": {},
   "publishConfig": {
     "access": "public"
