@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/reactnative",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Engage JavaScript SDK for React Native",
   "main": "index.js",
   "type": "module",
@@ -11,6 +11,6 @@
   "author": "Engage",
   "license": "MIT",
   "dependencies": {
-    "@engage_so/core": "^2.0.7"
+    "@engage_so/core": "^2.0.8"
   }
 }
