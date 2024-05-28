@@ -38,10 +38,10 @@ type Methods = 'POST' | 'PUT' | 'DELETE'
 // }
 // type UserAttrParams = Omit<UserIdentifyParams, 'id'>
 
-const rootURL = 'https://api.engage.so/v1'
+// const rootURL = 'https://api.engage.so/v1'
 let auth: string = ''
 const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name', 'tz', 'app_version', 'app_build', 'app_last_active']
-const apiRoot = 'https://api.engage.so/'
+const apiRoot = 'https://api.engage.so/v1'
 
 async function _request (url: string, params: Record<string, any> | null, method: Methods) {
   try {
