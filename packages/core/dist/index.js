@@ -29,7 +29,7 @@ if (typeof btoa === 'undefined') {
 // const rootURL = 'https://api.engage.so/v1'
 let auth = '';
 const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name', 'tz', 'app_version', 'app_build', 'app_last_active'];
-const apiRoot = 'https://api.engage.so/v1/';
+const apiRoot = 'https://api.engage.so/v1';
 function _request(url, params, method) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -117,7 +117,7 @@ function identify(user) {
                 params.meta[k] = user[k];
             }
         }
-        return _request(`users/${user.id}`, params, 'PUT');
+        return _request(`/users/${user.id}`, params, 'PUT');
     });
 }
 exports.identify = identify;
@@ -146,7 +146,7 @@ function addAttribute(uid, attributes) {
         if (Object.keys(params.meta).length) {
             delete params.meta;
         }
-        return _request(`users/${uid}`, params, 'PUT');
+        return _request(`/users/${uid}`, params, 'PUT');
     });
 }
 exports.addAttribute = addAttribute;
@@ -169,7 +169,7 @@ function track(uid, data) {
                 throw new error_1.EngageError('Attributes missing.');
             }
         }
-        return _request(`users/${uid}/events`, data, 'POST');
+        return _request(`/users/${uid}/events`, data, 'POST');
     });
 }
 exports.track = track;
@@ -181,7 +181,7 @@ function merge(sourceUid, destinationUid) {
         if (!destinationUid) {
             throw new error_1.EngageError('Destination ID missing.');
         }
-        return _request(`users/merge`, {
+        return _request(`/users/merge`, {
             source: sourceUid,
             destination: destinationUid
         }, 'POST');
@@ -206,7 +206,7 @@ function addToAccount(uid, accountId, role) {
         if (role) {
             g.role = role;
         }
-        return _request(`users/${uid}/accounts`, { accounts: [g] }, 'POST');
+        return _request(`/users/${uid}/accounts`, { accounts: [g] }, 'POST');
     });
 }
 exports.addToAccount = addToAccount;
@@ -218,7 +218,7 @@ function removeFromAccount(uid, accountId) {
         if (!accountId) {
             throw new error_1.EngageError('Account ID missing.');
         }
-        return _request(`users/${uid}/accounts/${accountId}`, null, 'DELETE');
+        return _request(`/users/${uid}/accounts/${accountId}`, null, 'DELETE');
     });
 }
 exports.removeFromAccount = removeFromAccount;
@@ -233,7 +233,7 @@ function changeAccountRole(uid, accountId, role) {
         if (!role) {
             throw new error_1.EngageError('New role missing.');
         }
-        return _request(`users/${uid}/accounts/${accountId}`, { role }, 'PUT');
+        return _request(`/users/${uid}/accounts/${accountId}`, { role }, 'PUT');
     });
 }
 exports.changeAccountRole = changeAccountRole;
@@ -242,7 +242,7 @@ function convertToCustomer(uid) {
         if (!uid) {
             throw new error_1.EngageError('User ID missing.');
         }
-        return _request(`users/${uid}/convert`, { type: 'customer' }, 'POST');
+        return _request(`/users/${uid}/convert`, { type: 'customer' }, 'POST');
     });
 }
 exports.convertToCustomer = convertToCustomer;
@@ -251,7 +251,7 @@ function convertToAccount(uid) {
         if (!uid) {
             throw new error_1.EngageError('User ID missing.');
         }
-        return _request(`users/${uid}/convert`, { type: 'account' }, 'POST');
+        return _request(`/users/${uid}/convert`, { type: 'account' }, 'POST');
     });
 }
 exports.convertToAccount = convertToAccount;
