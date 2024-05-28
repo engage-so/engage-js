@@ -29,7 +29,7 @@ if (typeof btoa === 'undefined') {
 // const rootURL = 'https://api.engage.so/v1'
 let auth = '';
 const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name', 'tz', 'app_version', 'app_build', 'app_last_active'];
-const apiRoot = 'https://api.engage.so/v1';
+const apiRoot = 'https://api.engage.so/v1/';
 function _request(url, params, method) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

@@ -41,7 +41,7 @@ type Methods = 'POST' | 'PUT' | 'DELETE'
 // const rootURL = 'https://api.engage.so/v1'
 let auth: string = ''
 const notMeta = ['created_at', 'is_account', 'number', 'device_token', 'device_platform', 'email', 'first_name', 'last_name', 'tz', 'app_version', 'app_build', 'app_last_active']
-const apiRoot = 'https://api.engage.so/v1/'
+const apiRoot = 'https://api.engage.so/v1'
 
 async function _request (url: string, params: Record<string, any> | null, method: Methods) {
   try {
@@ -125,7 +125,7 @@ export async function identify (user: UserIdentifyParams) {
     }
   }
 
-  return _request(`users/${user.id}`, params, 'PUT')
+  return _request(`/users/${user.id}`, params, 'PUT')
 }
 export async function addAttribute (uid: string, attributes: UserAttrParams) {
   if (!uid) {
@@ -151,7 +151,7 @@ export async function addAttribute (uid: string, attributes: UserAttrParams) {
     delete params.meta
   }
 
-  return _request(`users/${uid}`, params, 'PUT')
+  return _request(`/users/${uid}`, params, 'PUT')
 }
 export async function track (uid: string, data: EventParameter) {
   if (!uid) {
@@ -171,7 +171,7 @@ export async function track (uid: string, data: EventParameter) {
     }
   }
 
-  return _request(`users/${uid}/events`, data, 'POST')
+  return _request(`/users/${uid}/events`, data, 'POST')
 }
 
 export async function merge (sourceUid: string, destinationUid: string) {
@@ -182,7 +182,7 @@ export async function merge (sourceUid: string, destinationUid: string) {
     throw new EngageError('Destination ID missing.')
   }
 
-  return _request(`users/merge`, {
+  return _request(`/users/merge`, {
     source: sourceUid,
     destination: destinationUid
   }, 'POST')
@@ -205,7 +205,7 @@ export async function addToAccount(uid: string, accountId: string, role: string)
   if (role) {
     g.role = role
   }
-  return _request(`users/${uid}/accounts`, { accounts: [g] }, 'POST')
+  return _request(`/users/${uid}/accounts`, { accounts: [g] }, 'POST')
 }
 export async function removeFromAccount (uid: string, accountId: string){
   if (!uid) {
@@ -214,7 +214,7 @@ export async function removeFromAccount (uid: string, accountId: string){
   if (!accountId) {
     throw new EngageError('Account ID missing.')
   }
-  return _request(`users/${uid}/accounts/${accountId}`, null, 'DELETE')
+  return _request(`/users/${uid}/accounts/${accountId}`, null, 'DELETE')
 }
 export async function changeAccountRole (uid: string, accountId: string, role: string) {
   if (!uid) {
@@ -226,17 +226,17 @@ export async function changeAccountRole (uid: string, accountId: string, role: s
   if (!role) {
     throw new EngageError('New role missing.')
   }
-  return _request(`users/${uid}/accounts/${accountId}`, { role }, 'PUT')
+  return _request(`/users/${uid}/accounts/${accountId}`, { role }, 'PUT')
 }
 export async function convertToCustomer (uid: string) {
   if (!uid) {
     throw new EngageError('User ID missing.')
   }
-  return _request(`users/${uid}/convert`, { type: 'customer' }, 'POST')
+  return _request(`/users/${uid}/convert`, { type: 'customer' }, 'POST')
 }
 export async function convertToAccount (uid: string) {
   if (!uid) {
     throw new EngageError('User ID missing.')
   }
-  return _request(`users/${uid}/convert`, { type: 'account' }, 'POST')
+  return _request(`/users/${uid}/convert`, { type: 'account' }, 'POST')
 }
