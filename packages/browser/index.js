@@ -336,7 +336,6 @@ function toggleWidget () {
 
 function joinRoom () {
   if (socket && account && account.id) {
-    // console.log('Status', socket.connected)
     socket.emit('room', account.id)
     socket.emit('room', account.id+':'+uid)
   }
@@ -760,5 +759,16 @@ Engage.openHelp = function (id, helpType, locale) {
     containerDiv.classList.add('opened')
   }
 };
+
+// Override identify
+const _identify = Engage.identify
+Engage.identify = function (u) {
+  if (u && u.id) {
+    uid = u.id
+    user.uid = u.id
+    joinRoom()
+    _identify(u)
+  }
+}
 
 module.exports = Engage
