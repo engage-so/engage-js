@@ -140,10 +140,9 @@ function addAttribute(uid, attributes) {
             }
             else {
                 params.meta[k] = attributes[k];
-                Object.assign(params.meta, k, attributes[k]);
             }
         }
-        if (Object.keys(params.meta).length) {
+        if (!Object.keys(params.meta).length) {
             delete params.meta;
         }
         return _request(`/users/${uid}`, params, 'PUT');

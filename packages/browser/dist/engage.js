@@ -1,5 +1,5 @@
 /**
- * Version: 2.0.10; 2024-05-30
+ * Version: 2.1.1; 2024-07-09
  */
 
 (function (global, factory) {
@@ -823,10 +823,9 @@
 	            }
 	            else {
 	                params.meta[k] = attributes[k];
-	                Object.assign(params.meta, k, attributes[k]);
 	            }
 	        }
-	        if (Object.keys(params.meta).length) {
+	        if (!Object.keys(params.meta).length) {
 	            delete params.meta;
 	        }
 	        return _request(`/users/${uid}`, params, 'PUT');
