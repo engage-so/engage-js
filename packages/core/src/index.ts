@@ -144,10 +144,9 @@ export async function addAttribute (uid: string, attributes: UserAttrParams) {
       params[k] = attributes[k]
     } else {
       params.meta[k] = attributes[k]
-      Object.assign(params.meta, k, attributes[k])
     }
   }
-  if (Object.keys(params.meta).length) {
+  if (!Object.keys(params.meta).length) {
     delete params.meta
   }
 
