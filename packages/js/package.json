@@ -1,6 +1,6 @@
 {
   "name": "@engage_so/js",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Engage JavaScript SDK",
   "main": "node/index.js",
   "react-native": "rn/index.js",
@@ -12,8 +12,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@engage_so/browser": "^2.1.0",
-    "@engage_so/node": "^2.0.10",
-    "@engage_so/reactnative": "^2.0.10"
+    "@engage_so/browser": "^2.1.1",
+    "@engage_so/node": "^2.1.1",
+    "@engage_so/reactnative": "^2.1.1"
   }
 }
